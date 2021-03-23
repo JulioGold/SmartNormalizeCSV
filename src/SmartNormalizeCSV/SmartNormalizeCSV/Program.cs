@@ -11,7 +11,7 @@ namespace SmartNormalizeCSV
         {
             using (StreamReader sr = new StreamReader(@"C:\tmp\source.csv"))
             {
-                List<string> lista = new List<string>();
+                List<string> lineList = new List<string>();
                 Dictionary<int, int> major = new Dictionary<int, int>();
                 string line;
 
@@ -36,26 +36,26 @@ namespace SmartNormalizeCSV
                         }
                     }
 
-                    lista.Add(line);
+                    lineList.Add(line);
                 }
 
-                StringBuilder sb = new StringBuilder();
+                StringBuilder stringBuilder = new StringBuilder();
 
-                foreach (var item in lista)
+                foreach (string item in lineList)
                 {
-                    var col = string.Join(" ;", item.Split(';').Select((value, index) => value.PadRight(major[index], ' ')));
+                    string column = string.Join(" ;", item.Split(';').Select((value, index) => value.PadRight(major[index], ' ')));
 
-                    sb.AppendLine(col);
+                    stringBuilder.AppendLine(column);
                 }
 
-                lista.Clear();
+                lineList.Clear();
 
-                using (StreamWriter sw = new StreamWriter(@"C:\tmp\normalized.txt"))
+                using (StreamWriter streamWriter = new StreamWriter(@"C:\tmp\normalized.txt"))
                 {
-                    sw.Write(sb.ToString());
+                    streamWriter.Write(stringBuilder.ToString());
                 }
 
-                sb.Clear();
+                stringBuilder.Clear();
             }
         }
     }
